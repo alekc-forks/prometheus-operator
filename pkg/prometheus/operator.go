@@ -571,6 +571,9 @@ func nodeAddress(node v1.Node) (string, map[v1.NodeAddressType][]string, error) 
 		m[a.Type] = append(m[a.Type], a.Address)
 	}
 
+	if address, ok := node.Annotations["flannel.alpha.coreos.com/public-ip-overwrite"]; ok {
+		return address, m, nil
+	}
 	if addresses, ok := m[v1.NodeInternalIP]; ok {
 		return addresses[0], m, nil
 	}
